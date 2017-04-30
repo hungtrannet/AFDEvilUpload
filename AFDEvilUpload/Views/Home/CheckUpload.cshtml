@@ -1,0 +1,112 @@
+﻿
+@model Hashtable
+@{
+	ViewBag.Title = "Check Customer Order Upload";
+}
+<h2>@ViewBag.Title.</h2>
+
+
+
+@using System.Data;
+@using System.Collections;
+@using (Html.BeginForm("CheckUpload", "Home", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	<div class="container">
+		<div class="radio radio-inline">
+			<label></label>
+		</div>
+		<div class="radio radio-inline">
+
+    @{if (Model["optStatus"].Equals("All"))
+          {
+            <label><input type="radio" name="optStatus" checked="checked" value="All"> All</label>
+        }
+
+        else
+        {
+            <label><input type="radio" name="optStatus"  value="All"> All</label>
+        };
+    }
+
+
+
+        </div>
+
+
+<div class="radio radio-inline">
+    @{if (Model["optStatus"].Equals("Uploading"))
+        {
+            <label><input type="radio" name="optStatus" checked="checked" value="Uploading">Uploading</label>
+        }
+
+        else
+        {
+            <label><input type="radio" name="optStatus" value="Uploading">Uploading</label>
+        };
+    }
+
+
+			
+		</div>
+		<div class="radio radio-inline">
+            @{if (Model["optStatus"].Equals("Error"))
+                {
+                    <label><input type="radio" name="optStatus" checked="checked" value="Error">Error</label>
+                }
+
+                else
+                {
+                    <label><input type="radio" name="optStatus" value="Error">Error</label>
+                };
+            }
+
+			
+		</div>
+		<div class="radio radio-inline">
+            @{if (Model["optStatus"].Equals("Success"))
+                {
+                    <label><input type="radio" name="optStatus" checked="checked" value="Success">Success</label>                
+                }
+
+                else
+                {
+                    <label><input type="radio" name="optStatus" value="Success">Success</label>
+                };
+            }
+			
+		</div>
+		<div class="form-group">
+			<input type="text" id="txtCustomer" name="txtCustomer" value ="@Model["txtCustomer"]"class="form-control" placeholder="Customer" />
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Search" class="btn btn-default" />
+		</div>
+	</div>
+}
+		<h6>@ViewBag.Message</h6>
+		@{if (Model != null)
+            {
+                DataTable loData =(DataTable) Model["DataReturn"];
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							@foreach (DataColumn col in loData.Columns)
+							{
+								<th width="100px">@col.ColumnName</th>
+							}
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (DataRow row in loData.Rows)
+						{
+							<tr>
+								@foreach (DataColumn col in loData.Columns)
+								{
+									<td>@row[col.ColumnName]</td>
+								}
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+		}

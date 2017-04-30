@@ -1,0 +1,103 @@
+﻿
+@model System.Data.DataSet
+@{
+    ViewBag.Title = "Check hash key from both EVIL and local database.";
+}
+
+@using System.Data;
+<h2>@ViewBag.Title.</h2> 
+  
+@using (Html.BeginForm("CheckHashRecord", "Home", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary()
+
+	<div class="form-group">
+		<input type="text" id="txtHashKey" name ="txtHashKey" class="form-control" placeholder="Hash key" />
+	</div>
+
+		<div class="form-group">
+			<input type="submit" value="Check" class="btn btn-default" />
+		</div>
+
+		<h6>@ViewBag.Message</h6>
+
+	if (Model != null)
+	{
+
+		DataSet loDs = Model;
+
+		if (loDs.Tables.Count >= 1)
+		{
+			DataTable loResult1 = loDs.Tables[0];
+					<div class="container">
+						<h2>@loResult1.TableName</h2>
+						<div class="panel panel-default">
+							<div class="panel-body">
+
+								<table>
+									<thead>
+										<tr>
+											@foreach (DataColumn col in loResult1.Columns)
+											{
+												<th>@col.ColumnName</th>
+											}
+										</tr>
+									</thead>
+									<tbody>
+										@foreach (DataRow row in loResult1.Rows)
+										{
+											<tr>
+												@foreach (DataColumn col in loResult1.Columns)
+												{
+													<td>@row[col.ColumnName]</td>
+												}
+											</tr>
+										}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+		}
+		if (loDs.Tables.Count > 1)
+		{
+			DataTable loResult2 = loDs.Tables[1];
+			<div class="container">
+				<h2>@loResult2.TableName</h2>
+				<div class="panel panel-default">
+					<div class="panel-body">
+
+						<table>
+							<thead>
+								<tr>
+									@foreach (DataColumn col in loResult2.Columns)
+									{
+										<th>@col.ColumnName</th>
+									}
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (DataRow row in loResult2.Rows)
+								{
+									<tr>
+										@foreach (DataColumn col in loResult2.Columns)
+										{
+											<td>@row[col.ColumnName]</td>
+										}
+									</tr>
+								}
+							</tbody>
+						</table>
+					
+					
+					</div>
+				</div>
+			</div>
+		}
+
+
+
+		
+	}
+}

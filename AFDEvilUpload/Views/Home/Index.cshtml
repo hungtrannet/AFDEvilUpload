@@ -1,0 +1,34 @@
+﻿@{
+	ViewBag.Title = "Home Page";
+}
+
+@using System.Data;
+
+
+<h3>@ViewBag.Message</h3>
+<div id="vwUploadFile" class="row">
+	<h2>Upload file to EVIL INC</h2>
+
+
+	@using (Html.BeginForm("UploadCSV", "Home", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+	{
+		@Html.AntiForgeryToken()
+		@Html.ValidationSummary()
+
+		<div class="form-group">
+			<input type="file" id="dataFile" class="form-control" name="poFileUpload" />
+		</div>
+
+		<div class="form-group">
+			<input type="submit" value="Upload" class="btn btn-default" />
+		</div>
+
+	
+	}
+
+
+
+
+
+
+</div>
